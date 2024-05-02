@@ -1,0 +1,36 @@
+management:
+  health:
+    rabbit:
+      enables: false
+    circuitbreakers:
+      enables: false
+spring:
+  cloud:
+    stream:
+      bindings:
+        myInput:
+          destination: queue.log.messages
+          binder: local_rabbit
+        myOutput:
+          destination: queue.pretty.log.messages
+          binder: local_rabbit
+      binders:
+        local_rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 127.0.0.1
+                port: 5672
+                username: admin
+                password: admin
+                virtual-host: center
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql:true
+server:
+  port : 8090
